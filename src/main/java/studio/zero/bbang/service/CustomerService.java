@@ -12,12 +12,12 @@ import studio.zero.bbang.repository.CustomerRepository;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-//    private final CustomerMapper customerMapper;
+    private final CustomerMapper customerMapper;
 
     public Customer signUpCustomer(CustomerDTO customerDTO) {
-//        Customer customer = customerMapper.dtoToCustomer(customerDTO);
-//        System.out.println("customer = " + customer);
-//        return customerRepository.save(customer);
-        return null;
+        if (customerRepository.existsByPhone(customerDTO.getPhone())) throw new IllegalArgumentException("phone number already exists");
+
+        Customer customer = customerMapper.dtoToCustomer(customerDTO);
+        return customerRepository.save(customer);
     }
 }

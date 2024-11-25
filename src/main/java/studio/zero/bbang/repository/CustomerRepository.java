@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import studio.zero.bbang.model.Customer;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
-
+    Boolean existsByPhone(String phone);
 }
