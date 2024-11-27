@@ -1,4 +1,4 @@
-package studio._0.bbang;
+package studio.zero.bbang;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
