@@ -18,6 +18,18 @@ public class CustomerTestDataFactory {
                 .build();
     }
 
+    public static CustomerDTO customerDTOWithoutNickname() {
+        return CustomerDTO.builder()
+                .phone(phone)
+                .build();
+    }
+
+    public static CustomerDTO customerDTOWithInvlidPhoneNumber() {
+        return CustomerDTO.builder()
+                .phone("123456")
+                .build();
+    }
+
     public static Customer createCustomer() {
         return Customer.builder()
                 .nickname(nickname)
