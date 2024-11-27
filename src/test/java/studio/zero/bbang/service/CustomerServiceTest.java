@@ -8,6 +8,7 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import studio.zero.bbang.dto.CustomerDTO;
 import studio.zero.bbang.dto.CustomerMapper;
+import studio.zero.bbang.factory.CustomerTestDataFactory;
 import studio.zero.bbang.model.Customer;
 import studio.zero.bbang.repository.CustomerRepository;
 
@@ -25,49 +26,36 @@ class CustomerServiceTest {
     @Spy
     private CustomerMapper customerMapper;
 
-    private final String nickname = "test nickname";
-    private final String phone = "010-1111-1111";
-
     @Test
     void saveAndReturnUser() {
         // given
-        when(customerMapper.dtoToCustomer(any(CustomerDTO.class))).thenReturn(makeCustomer(nickname, phone));
-        when(customerRepository.save(any(Customer.class))).thenReturn(makeCustomer(nickname, phone));
+        Customer customer = CustomerTestDataFactory.createCustomer();
+        CustomerDTO customerDTO = CustomerTestDataFactory.createCustomerDTO();
+
+        when(customerMapper.dtoToCustomer(any(CustomerDTO.class))).thenReturn(customer);
+        when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 
         // when
-        Customer savedCustomer = customerService.signUpCustomer(makeCustomerDTO(nickname, phone));
+        Customer savedCustomer = customerService.signUpCustomer(customerDTO);
 
         // then
         assertNotNull(savedCustomer);
-        assertEquals(nickname, savedCustomer.getNickname());
-        assertEquals(phone, savedCustomer.getPhone());
+        assertEquals(customer.getNickname(), savedCustomer.getNickname());
+        assertEquals(customer.getPhone(), savedCustomer.getPhone());
     }
 
     @Test
     void saveDuplicatedPhone() {
         // given
-        when(customerRepository.existsByPhone(phone)).thenReturn(true);
-        CustomerDTO customerDTO = makeCustomerDTO(nickname, phone);
+        Customer customer = CustomerTestDataFactory.createCustomer();
+        CustomerDTO customerDTO = CustomerTestDataFactory.createCustomerDTO();
+
+        when(customerRepository.existsByPhone(customer.getPhone())).thenReturn(true);
 
         // when & then
         assertThrows(IllegalArgumentException.class,
                 () -> customerService.signUpCustomer(customerDTO),
                         "phone number already exists");
-    }
-
-
-    CustomerDTO makeCustomerDTO(String nickname, String phone) {
-        return CustomerDTO.builder()
-                .nickname(nickname)
-                .phone(phone)
-                .build();
-    }
-
-    Customer makeCustomer(String nickname, String phone) {
-        return Customer.builder()
-                .nickname(nickname)
-                .phone(phone)
-                .build();
     }
 
 }
