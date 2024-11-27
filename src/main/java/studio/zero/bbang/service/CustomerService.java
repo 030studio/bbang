@@ -14,10 +14,11 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
 
-    public Customer signUpCustomer(CustomerDTO customerDTO) {
+    public CustomerDTO signUpCustomer(CustomerDTO customerDTO) {
         if (customerRepository.existsByPhone(customerDTO.getPhone())) throw new IllegalArgumentException("phone number already exists");
 
         Customer customer = customerMapper.dtoToCustomer(customerDTO);
-        return customerRepository.save(customer);
+        Customer savedCustomer = customerRepository.save(customer);
+        return customerMapper.customerToDto(savedCustomer);
     }
 }

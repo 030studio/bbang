@@ -33,15 +33,16 @@ class CustomerServiceTest {
         CustomerDTO customerDTO = CustomerTestDataFactory.createCustomerDTO();
 
         when(customerMapper.dtoToCustomer(any(CustomerDTO.class))).thenReturn(customer);
+        when(customerMapper.customerToDto(any(Customer.class))).thenReturn(customerDTO);
         when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 
         // when
-        Customer savedCustomer = customerService.signUpCustomer(customerDTO);
+        CustomerDTO savedCustomerDTO = customerService.signUpCustomer(customerDTO);
 
         // then
-        assertNotNull(savedCustomer);
-        assertEquals(customer.getNickname(), savedCustomer.getNickname());
-        assertEquals(customer.getPhone(), savedCustomer.getPhone());
+        assertNotNull(savedCustomerDTO);
+        assertEquals(customer.getNickname(), savedCustomerDTO.getNickname());
+        assertEquals(customer.getPhone(), savedCustomerDTO.getPhone());
     }
 
     @Test
