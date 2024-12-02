@@ -3,6 +3,7 @@ package studio.zero.bbang.service;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +18,11 @@ public class MessageSerivce {
     @Value("${twilio.phone}")
     private String twilioPhone;
 
-    public void twilioMessageSender(String userPhoneNumber, String content) {
+    @PostConstruct
+    public void init() {
         Twilio.init(accountSid, authToken);
+    }
+    public void twilioMessageSender(String userPhoneNumber, String content) {
 
         String countryCode = "+82";
         String phoneWithCountryCode = String.format("%s%s", countryCode, userPhoneNumber.substring(1));
