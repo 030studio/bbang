@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: bbang
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+twilio:
+  sid: ${TWILIO_SID}
+  auth-token: ${TWILIO_AUTH_TOKEN}
+  phone: ${TWILIO_PHONE}

@@ -45,6 +45,8 @@ dependencies {
 	// data faker
 	implementation 'net.datafaker:datafaker:2.4.2'
 
+	// twilio
+	implementation 'com.twilio.sdk:twilio:10.6.3'
 }
 
 
