@@ -6,9 +6,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import studio.zero.bbang.dto.CustomerDTO;
-import studio.zero.bbang.dto.CustomerMapper;
 import studio.zero.bbang.factory.CustomerTestDataFactory;
+import studio.zero.bbang.mapper.CustomerMapper;
 import studio.zero.bbang.model.Customer;
 import studio.zero.bbang.repository.CustomerRepository;
 
@@ -25,6 +26,8 @@ class CustomerServiceTest {
     private CustomerRepository customerRepository;
     @Spy
     private CustomerMapper customerMapper;
+    @Spy
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Test
     void saveAndReturnUser() {
