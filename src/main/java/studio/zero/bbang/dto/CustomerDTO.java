@@ -23,6 +23,5 @@ public class CustomerDTO {
 
     @NotBlank(message = "phone number cannot be null")
     private String phone;
-    private Point location;
 }
 

@@ -1,6 +1,7 @@
-package studio.zero.bbang.dto;
+package studio.zero.bbang.mapper;
 
 import org.mapstruct.Mapper;
+import studio.zero.bbang.dto.CustomerDTO;
 import studio.zero.bbang.model.Customer;
 
 @Mapper(componentModel = "spring")
