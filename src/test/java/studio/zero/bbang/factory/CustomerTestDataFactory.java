@@ -10,23 +10,28 @@ public class CustomerTestDataFactory {
     private static final Faker faker = new Faker(new Locale("kr"));
     private static final String nickname = faker.funnyName().name();
     private static final String phone = faker.phoneNumber().cellPhone();
+    private static final String password = "aA123456";
 
     public static CustomerDTO createCustomerDTO() {
         return CustomerDTO.builder()
                 .nickname(nickname)
                 .phone(phone)
+                .password(password)
                 .build();
     }
 
     public static CustomerDTO customerDTOWithoutNickname() {
         return CustomerDTO.builder()
                 .phone(phone)
+                .password(password)
                 .build();
     }
 
     public static CustomerDTO customerDTOWithInvlidPhoneNumber() {
         return CustomerDTO.builder()
                 .phone("123456")
+                .nickname(nickname)
+                .password(password)
                 .build();
     }
 
@@ -34,6 +39,7 @@ public class CustomerTestDataFactory {
         return Customer.builder()
                 .nickname(nickname)
                 .phone(phone)
+                .password(password)
                 .build();
     }
 }
