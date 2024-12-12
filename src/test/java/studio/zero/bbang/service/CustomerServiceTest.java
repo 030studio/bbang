@@ -49,17 +49,39 @@ class CustomerServiceTest {
     }
 
     @Test
-    void saveDuplicatedPhone() {
+    void failWhenSaveDuplicatedPhone() {
         // given
         Customer customer = CustomerTestDataFactory.createCustomer();
         CustomerDTO customerDTO = CustomerTestDataFactory.createCustomerDTO();
 
+        // when
         when(customerRepository.existsByPhone(customer.getPhone())).thenReturn(true);
 
-        // when & then
+        // then
         assertThrows(IllegalArgumentException.class,
                 () -> customerService.signUpCustomer(customerDTO),
                         "phone number already exists");
     }
 
+    @Test
+    void failWhenSaveWithoutPhoneAuthenticated() {
+        // given
+        CustomerDTO customerDTO = CustomerTestDataFactory.customerDTOAboutAuthenticated(null);
+
+        // when & then
+        assertThrows(IllegalArgumentException.class,
+                () -> customerService.signUpCustomer(customerDTO),
+                "phone number must be authenticated");
+    }
+
+    @Test
+    void failWhenSaveWithFalsePhoneAuthenticated() {
+        // given
+        CustomerDTO customerDTO = CustomerTestDataFactory.customerDTOAboutAuthenticated(false);
+
+        // when & then
+        assertThrows(IllegalArgumentException.class,
+                () -> customerService.signUpCustomer(customerDTO),
+                "phone number must be authenticated");
+    }
 }

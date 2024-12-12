@@ -18,6 +18,7 @@ public class CustomerService {
 
     public CustomerDTO signUpCustomer(CustomerDTO customerDTO) {
         if (customerRepository.existsByPhone(customerDTO.getPhone())) throw new IllegalArgumentException("phone number already exists");
+        if (customerDTO.getIsAuthenticated() == null || !customerDTO.getIsAuthenticated()) throw new IllegalArgumentException("phone number must be authenticated");
 
         customerDTO.setPassword(passwordEncoder.encode(customerDTO.getPassword()));
 

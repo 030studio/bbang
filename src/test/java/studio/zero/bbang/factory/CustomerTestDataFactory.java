@@ -8,15 +8,17 @@ import java.util.Locale;
 
 public class CustomerTestDataFactory {
     private static final Faker faker = new Faker(new Locale("kr"));
-    private static final String nickname = faker.funnyName().name();
+    private static final String nickname = "nickname";
     private static final String phone = faker.phoneNumber().cellPhone();
     private static final String password = "aA123456";
+    private static final Boolean isAuthenticated = true;
 
     public static CustomerDTO createCustomerDTO() {
         return CustomerDTO.builder()
                 .nickname(nickname)
                 .phone(phone)
                 .password(password)
+                .isAuthenticated(isAuthenticated)
                 .build();
     }
 
@@ -24,6 +26,23 @@ public class CustomerTestDataFactory {
         return CustomerDTO.builder()
                 .phone(phone)
                 .password(password)
+                .isAuthenticated(isAuthenticated)
+                .build();
+    }
+
+    public static CustomerDTO customerDTOAboutAuthenticated(Boolean value) {
+        return CustomerDTO.builder()
+                .phone(phone)
+                .password(password)
+                .isAuthenticated(value)
+                .build();
+    }
+
+    public static CustomerDTO customerDTOAboutPassword(String password) {
+        return CustomerDTO.builder()
+                .phone(phone)
+                .password(password)
+                .isAuthenticated(true)
                 .build();
     }
 
