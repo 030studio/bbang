@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import studio.zero.bbang.annotation.ValidPassword;
 
 @Data
 @Builder
@@ -18,6 +19,7 @@ public class CustomerDTO {
     @Size(min = 2, max = 10, message = "Nickname must be between 2 and 10 characters")
     private String nickname;
 
+    @ValidPassword
     @NotBlank(message = "password cannot be null")
     private String password;
 

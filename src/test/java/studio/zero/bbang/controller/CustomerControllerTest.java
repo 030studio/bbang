@@ -2,6 +2,8 @@ package studio.zero.bbang.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -70,21 +72,23 @@ class CustomerControllerTest {
                 });
     }
 
-//    @Test
-//    void failWhenPasswordOnlyContainsDigits() throws Exception {
-//        // given
-//        String password = "123456789";
-//        CustomerDTO invalidCustomerDTO = CustomerTestDataFactory.customerDTOAboutPassword(password);
-//
-//        // when & then
-//        mockMvc.perform(post("/customer/customers")
-//                        .with(csrf())
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(invalidCustomerDTO)))
-//                .andExpect(status().isBadRequest())
-//                .andExpect(result -> {
-//                    assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException);
-//                    assertTrue(result.getResolvedException().getMessage().contains("Invalid password"));
-//                });
-//    }
+    @ParameterizedTest
+    @ValueSource(strings = {"short1", "thisaverylongpassword123", "123456789", "alphabets", "!!!!!!!!"})
+    void failWhenPasswordOnlyContainsDigits() throws Exception {
+        // given
+        String password = "123456789";
+        CustomerDTO invalidCustomerDTO = CustomerTestDataFactory.customerDTOAboutPassword(password);
+
+        // when & then
+        mockMvc.perform(post("/customer/customers")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(invalidCustomerDTO)))
+                .andExpect(status().isBadRequest())
+                .andExpect(result -> {
+                    assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException);
+                    assertTrue(result.getResolvedException().getMessage().contains("Password must contain"));
+                });
+    }
+
 }
