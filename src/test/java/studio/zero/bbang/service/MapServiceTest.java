@@ -5,6 +5,7 @@ import studio.zero.bbang.factory.CustomerTestDataFactory;
 import studio.zero.bbang.model.Customer;
 
 import java.awt.*;
+import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,13 +15,16 @@ class MapServiceTest {
 
     void getCurrentPoint() {
         // given - 현재 위치 받아서 전달
-        // 고객 생성
-        Customer customer = CustomerTestDataFactory.createCustomer();
+        // 고객 찾아서 가져오기로 변경해야함
+        Customer customer = new Customer();
         Point location = customer.getLocation();
 
-        // when
-        // 현재 위치정보 지정 실패
-        mapService.getCurrentPoint();
+        // 위도 경도 추출
+        double latitude = location.getY();
+        double longitude = location.getX();
+
+        assertEquals(33.450701, latitude);
+        assertEquals(126.570667, longitude);
 
         //then
         // 현재 위치 정보로 맵에 현 위치 설정
