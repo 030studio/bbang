@@ -61,4 +61,12 @@ public class CustomerTestDataFactory {
                 .password(password)
                 .build();
     }
+
+    public static Customer createCustomerWithPhone(String phone) {
+        return Customer.builder()
+                .nickname(nickname)
+                .phone(phone)
+                .password(password)
+                .build();
+    }
 }
