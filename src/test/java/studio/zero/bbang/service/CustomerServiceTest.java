@@ -107,9 +107,9 @@ class CustomerServiceTest {
         LoginDTO customerLoginDTO = new LoginDTO(phoneNumber, password);
         JwtDTO expectedJwtToken = new JwtDTO(expectedAccessToken, expectedRefreshToken);
 
-        when(customerRepository.getCustomerByPhone(customerLoginDTO.getPhoneNumber())).thenReturn(Optional.of(customer));
+        when(customerRepository.getCustomerByPhone(customerLoginDTO.getPhone())).thenReturn(Optional.of(customer));
         when(passwordEncoder.matches(customerLoginDTO.getPassword(), customer.getPassword())).thenReturn(true);
-        when(jwtProvider.generateToken(customerLoginDTO.getPhoneNumber())).thenReturn(expectedJwtToken);
+        when(jwtProvider.generateToken(customerLoginDTO.getPhone())).thenReturn(expectedJwtToken);
 
         // when
         JwtDTO actualJwtToken = customerService.loginCustomer(customerLoginDTO);
@@ -117,26 +117,4 @@ class CustomerServiceTest {
         // then
         assertEquals(expectedJwtToken, actualJwtToken);
     }
-
-//    @Test
-//    void testLoginCustomerWithClaims() {
-//        // given
-//        Customer customer = CustomerTestDataFactory.createCustomer();
-//        customer.setPassword("encryptedPassword123");
-//        CustomerLoginDTO customerLoginDTO = new CustomerLoginDTO("01012345678", "rawPassword");
-//
-//        when(customerRepository.getCustomerByPhone(customerLoginDTO.getCustomerPhone())).thenReturn(customer);
-//        when(passwordEncoder.matches(customerLoginDTO.getPassword(), customer.getPassword())).thenReturn(true);
-//
-//        // when
-//        String jwtToken = customerService.loginCustomer(customerLoginDTO);
-//
-//        // then
-//        DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512("testKey"))
-//                .build()
-//                .verify(jwtToken);
-//
-//        assertEquals("test jwt", decodedJWT.getSubject());
-//        assertEquals("01012345678", decodedJWT.getClaim("phoneNumber").asString());
-//    }
 }

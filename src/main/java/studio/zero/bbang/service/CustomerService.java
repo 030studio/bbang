@@ -35,7 +35,7 @@ public class CustomerService {
     }
 
     public JwtDTO loginCustomer(LoginDTO loginDTO) {
-        Customer customer = customerRepository.getCustomerByPhone(loginDTO.getPhoneNumber())
+        Customer customer = customerRepository.getCustomerByPhone(loginDTO.getPhone())
                 .orElseThrow(() -> new IllegalArgumentException("customer doesn't exist"));
 
         if (!passwordEncoder.matches(loginDTO.getPassword(), customer.getPassword())) {

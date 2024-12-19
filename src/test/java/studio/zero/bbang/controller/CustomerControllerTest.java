@@ -1,5 +1,6 @@
 package studio.zero.bbang.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,6 +13,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import studio.zero.bbang.dto.CustomerDTO;
+import studio.zero.bbang.dto.JwtDTO;
+import studio.zero.bbang.dto.LoginDTO;
 import studio.zero.bbang.factory.CustomerTestDataFactory;
 import studio.zero.bbang.model.Customer;
 import studio.zero.bbang.service.CustomerService;
@@ -43,9 +46,10 @@ class CustomerControllerTest {
         CustomerDTO customerDTO = CustomerTestDataFactory.createCustomerDTO();
         Customer customer = CustomerTestDataFactory.createCustomer();
 
+        // when
         when(customerService.signUpCustomer(any(CustomerDTO.class))).thenReturn(customerDTO);
 
-        // when & then
+        // then
         mockMvc.perform(post("/customer/customers")
                         .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -91,4 +95,27 @@ class CustomerControllerTest {
                 });
     }
 
+    @Test
+    void successCustomerLogin() throws Exception {
+        // given
+        String phoneNumber = "01012345678";
+        String password = "encryptedPassword";
+        String expectedAccessToken = "testAccessToken";
+        String expectedRefreshToken = "testRefreshToken";
+
+        LoginDTO loginDTO = new LoginDTO(phoneNumber, password);
+        JwtDTO expectedJwtToken = new JwtDTO(expectedAccessToken, expectedRefreshToken);
+
+        // when
+        when(customerService.loginCustomer(any(LoginDTO.class))).thenReturn(expectedJwtToken);
+
+        // then
+        mockMvc.perform(post("/customer/login")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(loginDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.accessToken").value(expectedJwtToken.getAccessToken()))
+                .andExpect(jsonPath("$.refreshToken").value(expectedJwtToken.getRefreshToken()));
+    }
 }
