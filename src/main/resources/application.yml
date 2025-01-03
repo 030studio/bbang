@@ -2,7 +2,7 @@ spring:
   application:
     name: bbang
   datasource:
-    url: ${DB_URL}
+    url: jdbc:postgresql://${HOST}:5432/bbang
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   jpa:
