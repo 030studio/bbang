@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class AuthDTO {
-    private String phone;
+    public record ReqVerification(String phone) { }
+    public record ReqConfirm(String phone, String code) { }
 }

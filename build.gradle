@@ -49,6 +49,9 @@ dependencies {
 
 	// twilio
 	implementation 'com.twilio.sdk:twilio:10.6.3'
+
+	// redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
 

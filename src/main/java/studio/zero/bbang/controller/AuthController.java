@@ -17,8 +17,14 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/code")
-    public ResponseEntity<Void> sendVerificationCode(@RequestBody AuthDTO authDTO) {
-        authService.sendVerificationCode(authDTO.getPhone());
+    public ResponseEntity<Void> sendVerificationCode(@RequestBody AuthDTO.ReqVerification authDTO) {
+        authService.sendVerificationCode(authDTO.phone());
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+    @PostMapping("/verification")
+    public ResponseEntity<Boolean> verifyCode(@RequestBody AuthDTO.ReqConfirm authDTO) {
+        authService.verifyCode(authDTO.phone(), authDTO.code());
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 }
