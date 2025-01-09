@@ -63,6 +63,10 @@ public class MessageSerivce {
     }
 
     public Boolean verifyCode(String phone, String code) {
-        return !(smsCertificationDao.hasKey(phone)) && smsCertificationDao.getSmsCertification(phone).equals(code);
+        if(!(smsCertificationDao.hasKey(phone)) && smsCertificationDao.getSmsCertification(phone).equals(code)) {
+            smsCertificationDao.removeSmsCertification(phone);
+            return true;
+        }
+        return false;
     }
 }
